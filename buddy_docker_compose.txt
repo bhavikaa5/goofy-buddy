@@ -1,0 +1,57 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - PORT=8000
+    volumes:
+      - ./backend:/app
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: npm start
+    depends_on:
+      - backend
+
+---
+# backend/Dockerfile
+FROM python:3.9-slim
+
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+COPY . .
+
+EXPOSE 8000
+
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+
+---
+# frontend/Dockerfile
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
