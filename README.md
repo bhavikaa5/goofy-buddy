@@ -116,4 +116,3 @@ React for the frontend framework
 
 Have fun chatting with your buddy! 🤪✨
 Remember: Your buddy is intentionally clueless about general knowledge - that's the fun part! He's your personal friend who only cares about YOU and your life. Ask him about world facts and watch the hilarious responses! 😂
-https://github.com/user-attachments/assets/c6f902e1-3147-4430-bcd1-7d04241e96a4
